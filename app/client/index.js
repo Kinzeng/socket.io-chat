@@ -8,6 +8,7 @@ import routes from './routes'
 import {SET_SOCKET} from './redux/actions/types/socket'
 import config from '../../config'
 
+// TODO: refactor to import socket instead of passing it through redux?
 export const socket = io(`http://${config.host}:${config.port}`)
 
 class Root extends React.Component {

@@ -4,8 +4,6 @@ import socketio from 'socket.io'
 import config from '../../config'
 import middleware from './middleware'
 
-console.log(config)
-
 const app = middleware(express())
 const httpServer = http.Server(app)
 const io = socketio(httpServer)
@@ -22,10 +20,16 @@ io.on('connection', (socket) => {
     users.push(name)
 
     console.log(`${name} has connected - ${sockets.length} users in chat`)
-    socket.broadcast.emit('server:login', {message: `${name} has joined the chat.`, type: 'login'})
+    socket.broadcast.emit('server:login', name)
+    socket.emit('server:message', {
+      message: `Welcome, ${name}! There are ${sockets.length - 1} other users in chat`,
+      type: 'login'
+    })
+
+    socket.emit('server:update-users', users)
   })
 
-  socket.on('client:message', (message) => {
+  socket.on('client:message', (message, ack) => {
     console.log(`\tmessage received from ${message.name}: ${message.message}`)
     io.emit('server:message', {...message, type: 'message'})
     // socket.emit('server:sender', 'You sent the message')
@@ -36,7 +40,7 @@ io.on('connection', (socket) => {
     const user = users[i]
 
     if (user) {
-      socket.broadcast.emit('server:disconnect', {message: `${user} has left the chat.`, type: 'logout'})
+      socket.broadcast.emit('server:disconnect', user)
 
       sockets.splice(i, 1)
       users.splice(i, 1)

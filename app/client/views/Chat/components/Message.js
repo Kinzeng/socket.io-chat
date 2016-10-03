@@ -6,6 +6,7 @@ const messageProps = {
   style: {
     minHeight: `${MESSAGE_HEIGHT}px`,
     width: '100%',
+    padding: '10px 0',
     backgroundColor: '#eee',
     display: 'flex',
     alignItems: 'center'
@@ -14,8 +15,8 @@ const messageProps = {
 
 const textProps = {
   style: {
-    width: '95%',
-    marginLeft: '5%',
+    width: '98%',
+    marginLeft: '2%',
     wordWrap: 'break-word'
   }
 }

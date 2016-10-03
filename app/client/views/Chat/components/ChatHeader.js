@@ -8,7 +8,8 @@ const containerProps = {
     display: 'flex',
     flexFlow: 'row nowrap',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    fontSize: '1.75em'
   }
 }
 

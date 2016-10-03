@@ -11,12 +11,20 @@ const inputStyle = {
   height: '100%',
   width: '95%',
   outline: 'none',
-  padding: '10px'
+  padding: '10px',
+  border: '1px solid rgb(233, 233, 233)',
+  borderLeft: 'none'
 }
 
 const buttonStyle = {
   height: '100%',
-  width: '5%'
+  width: '5%',
+  backgroundColor: 'transparent',
+  color: 'rgb(0, 132, 255)',
+  fontWeight: 'bold',
+  border: 'none',
+  borderTop: '1px solid rgb(233, 233, 233)',
+  outline: 'none'
 }
 
 export default class ChatInput extends React.Component {
@@ -30,8 +38,10 @@ export default class ChatInput extends React.Component {
   }
 
   sendMessage () {
-    this.props.sendMessage(this.state.message)
-    this.setState({message: ''})
+    if (this.state.message.trim()) {
+      this.props.sendMessage(this.state.message.trim())
+      this.setState({message: ''})
+    }
   }
 
   onKeyDown (e) {
