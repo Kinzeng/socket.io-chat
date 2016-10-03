@@ -1,9 +1,10 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
-import Modal from '../../containers/Modal'
+import ChatHeader from './components/ChatHeader'
 import MessageList from './components/MessageList'
 import ChatInput from './components/ChatInput'
+import Modal from '../../containers/Modal'
 import Login from './components/Login'
 import {setName} from '../../redux/actions/creators/chat'
 
@@ -36,6 +37,10 @@ class Chat extends React.Component {
   }
 
   render () {
+    const headerProps = {
+
+    }
+
     const messagesProps = {
       messages: this.state.messages
     }
@@ -56,6 +61,7 @@ class Chat extends React.Component {
 
     return (
       <div {...containerProps}>
+        <ChatHeader {...headerProps} />
         <MessageList {...messagesProps} />
         <ChatInput {...inputProps} />
         <Modal {...modalProps}>

@@ -4,7 +4,7 @@ export const MESSAGE_HEIGHT = 40
 
 const messageProps = {
   style: {
-    height: `${MESSAGE_HEIGHT}px`,
+    minHeight: `${MESSAGE_HEIGHT}px`,
     width: '100%',
     backgroundColor: '#eee',
     display: 'flex',
@@ -14,7 +14,9 @@ const messageProps = {
 
 const textProps = {
   style: {
-    marginLeft: '20px'
+    width: '95%',
+    marginLeft: '5%',
+    wordWrap: 'break-word'
   }
 }
 

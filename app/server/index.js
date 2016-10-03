@@ -35,11 +35,13 @@ io.on('connection', (socket) => {
     const i = sockets.indexOf(socket)
     const user = users[i]
 
-    console.log(`${user} has disconnected - ${sockets.length} users in chat`)
-    socket.broadcast.emit('server:disconnect', {message: `${user} has left the chat.`, type: 'logout'})
+    if (user) {
+      socket.broadcast.emit('server:disconnect', {message: `${user} has left the chat.`, type: 'logout'})
 
-    sockets.splice(i, 1)
-    users.splice(i, 1)
+      sockets.splice(i, 1)
+      users.splice(i, 1)
+    }
+    console.log(`${user} has disconnected - ${sockets.length} users in chat`)
   })
 })
 
