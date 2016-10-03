@@ -22,7 +22,14 @@ export default class MessageList extends React.Component {
 
   render () {
     const messages = this.props.messages.map((message, i) => {
-      return <Message name={message.name} message={message.message} key={i} />
+      const messageProps = {
+        type: message.type,
+        name: message.name,
+        message: message.message,
+        key: i
+      }
+
+      return <Message {...messageProps} />
     })
 
     const container = {

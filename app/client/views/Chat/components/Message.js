@@ -25,9 +25,30 @@ export default class Message extends React.Component {
   }
 
   render () {
+    const message = {
+      ...messageProps,
+      style: {
+        ...messageProps.style,
+        backgroundColor: this.props.type === 'message' ? 'rgb(233, 233, 233)' : 'rgb(255, 255, 255)',
+        color: this.props.type === 'message' ? 'rgb(0, 0, 0)' : 'rgb(150, 150, 150)'
+      }
+    }
+
+    let inner
+    switch (this.props.type) {
+      case 'message': {
+        inner = <span {...textProps}><b>{this.props.name}</b>: {this.props.message}</span>
+        break
+      }
+
+      default: {
+        inner = <span {...textProps}>{this.props.message}</span>
+      }
+    }
+
     return (
-      <div {...messageProps}>
-        <span {...textProps}><b>{this.props.name}</b>: {this.props.message}</span>
+      <div {...message}>
+        {inner}
       </div>
     )
   }

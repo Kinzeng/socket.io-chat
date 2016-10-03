@@ -14,20 +14,32 @@ app.all('*', (req, res) => {
   res.render('index')
 })
 
-let count = 0
+const sockets = []
+const users = []
 io.on('connection', (socket) => {
-  count++
-  console.log(`a user has connected - ${count} users in chat`)
+  socket.on('client:login', (name) => {
+    sockets.push(socket)
+    users.push(name)
 
-  socket.on('client:message', (data) => {
-    console.log(`\tmessage received from ${data.name}: ${data.message}`)
-    io.emit('server:message', data)
+    console.log(`${name} has connected - ${sockets.length} users in chat`)
+    socket.broadcast.emit('server:login', {message: `${name} has joined the chat.`, type: 'login'})
+  })
+
+  socket.on('client:message', (message) => {
+    console.log(`\tmessage received from ${message.name}: ${message.message}`)
+    io.emit('server:message', {...message, type: 'message'})
     // socket.emit('server:sender', 'You sent the message')
   })
 
   socket.on('disconnect', () => {
-    count--
-    console.log(`a user has disconnected - ${count} users in chat`)
+    const i = sockets.indexOf(socket)
+    const user = users[i]
+
+    console.log(`${user} has disconnected - ${sockets.length} users in chat`)
+    socket.broadcast.emit('server:disconnect', {message: `${user} has left the chat.`, type: 'logout'})
+
+    sockets.splice(i, 1)
+    users.splice(i, 1)
   })
 })
 

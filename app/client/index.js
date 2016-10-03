@@ -8,7 +8,7 @@ import routes from './routes'
 import {SET_SOCKET} from './redux/actions/types/socket'
 import config from '../../config'
 
-const socket = io(`http://${config.host}:${config.port}`)
+export const socket = io(`http://${config.host}:${config.port}`)
 
 class Root extends React.Component {
   componentWillMount () {

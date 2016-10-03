@@ -23,7 +23,9 @@ class Chat extends React.Component {
   }
 
   componentDidMount () {
+    this.props.socket.on('server:login', this.addMessage.bind(this))
     this.props.socket.on('server:message', this.addMessage.bind(this))
+    this.props.socket.on('server:disconnect', this.addMessage.bind(this))
     this.props.socket.on('server:sender', (data) => console.log(data))
   }
 
