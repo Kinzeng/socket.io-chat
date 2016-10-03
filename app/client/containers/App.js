@@ -2,9 +2,10 @@ import React from 'react'
 
 const appProps = {
   style: {
-    height: '100%', // Firefox
-    minHeight: '100%', // Safari
+    height: '100%',
+    minHeight: '100%',
     width: '100%',
+    minWidth: '750px',
     display: 'flex',
     flexFlow: 'column nowrap',
     justifyContent: 'space-between', // header and footer at the extremes
@@ -15,10 +16,6 @@ const appProps = {
 }
 
 export default class App extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     return (
       <div {...appProps}>
