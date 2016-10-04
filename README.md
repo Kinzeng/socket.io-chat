@@ -12,7 +12,7 @@ Planned features include:
 To run this project locally:
 
 ```
-git clone https://github.com/Kinzeng/type-trainer.git
+git clone https://github.com/Kinzeng/socket.io-chat.git
 cd type-trainer
 npm install
 npm start
