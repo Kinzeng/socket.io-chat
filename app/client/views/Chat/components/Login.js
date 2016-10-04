@@ -14,6 +14,7 @@ const containerProps = {
 const inputProps = {
   style: {
     width: '80%',
+    marginBottom: '20px',
     outline: 'none'
   }
 }
@@ -26,6 +27,10 @@ export default class Login extends React.Component {
 
   onChange (e) {
     this.setState({name: e.target.value})
+  }
+
+  onClick () {
+    this.props.setName(this.state.name)
   }
 
   onKeyDown (e) {
@@ -47,7 +52,10 @@ export default class Login extends React.Component {
     return (
       <div {...containerProps}>
         <h2>Log In</h2>
-        <input {...input} />
+        <div style={{width: '100%', display: 'flex', flexFlow: 'column nowrap', alignItems: 'center'}}>
+          <input {...input} />
+          <button onClick={this.onClick.bind(this)}>Log In</button>
+        </div>
       </div>
     )
   }
