@@ -32,19 +32,28 @@ export default class Message extends React.Component {
       ...messageProps,
       style: {
         ...messageProps.style,
-        backgroundColor: this.props.type === 'message' ? 'rgb(233, 233, 233)' : 'rgb(255, 255, 255)',
-        color: this.props.type === 'message' ? 'rgb(0, 0, 0)' : 'rgb(150, 150, 150)'
       }
     }
 
     let inner
     switch (this.props.type) {
       case 'message': {
+        message.style.backgroundColor = 'rgb(233, 233, 233)'
+        message.style.color = 'rgb(0, 0, 0)'
         inner = <span {...textProps}><b>{this.props.name}</b>: {this.props.message}</span>
         break
       }
 
+      case 'typing': {
+        message.style.backgroundColor = 'rgb(255, 255, 255)'
+        message.style.color = 'rgb(150, 150, 150)'
+        inner = <span {...textProps}><em>{this.props.message}</em></span>
+        break
+      }
+
       default: {
+        message.style.backgroundColor = 'rgb(255, 255, 255)'
+        message.style.color = 'rgb(150, 150, 150)'
         inner = <span {...textProps}>{this.props.message}</span>
       }
     }

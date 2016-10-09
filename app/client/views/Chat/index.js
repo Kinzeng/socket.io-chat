@@ -1,6 +1,7 @@
 import React from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
+import Timer from '../../utils/Timer'
 import ChatHeader from './components/ChatHeader'
 import UserList from './components/UserList'
 import MessageList from './components/MessageList'
@@ -30,7 +31,8 @@ const mainProps = {
 class Chat extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {users: [], messages: []}
+    this.state = {users: [], messages: [], typing: []}
+    this.timers = {}
   }
 
   componentDidMount () {
@@ -38,7 +40,7 @@ class Chat extends React.Component {
     this.props.socket.on('server:update-users', this.updateUsers.bind(this))
     this.props.socket.on('server:message', this.addMessage.bind(this))
     this.props.socket.on('server:disconnect', this.userDisconnect.bind(this))
-    this.props.socket.on('server:sender', (data) => console.log(data))
+    this.props.socket.on('server:typing', this.userTyping.bind(this))
   }
 
   addUser (user) {
@@ -54,8 +56,26 @@ class Chat extends React.Component {
 
   addMessage (message) {
     if (this.props.name) {
+      this.stopTyping(message.name)
       this.setState({messages: this.state.messages.concat(message)})
     }
+  }
+
+  userTyping (name) {
+    if (this.props.name) {
+      if (this.timers[name]) {
+        this.timers[name].setTime(3000)
+      } else {
+        this.setState({typing: this.state.typing.concat(name)})
+        this.timers[name] = new Timer(3000, this.stopTyping.bind(this, name))
+      }
+    }
+  }
+
+  stopTyping (name) {
+    this.state.typing.splice(this.state.typing.indexOf(name), 1)
+    this.setState({typing: this.state.typing})
+    this.timers[name] = null
   }
 
   userDisconnect (user) {
@@ -64,6 +84,10 @@ class Chat extends React.Component {
       this.setState({users: this.state.users})
       this.addMessage({message: `${user} has left the chat.`, type: 'logout'})
     }
+  }
+
+  emitEvent (event, data) {
+    this.props.socket.emit(event, {...data, name: this.props.name})
   }
 
   render () {
@@ -76,13 +100,15 @@ class Chat extends React.Component {
     }
 
     const messagesProps = {
-      messages: this.state.messages
+      messages: this.state.messages,
+      typing: this.state.typing
     }
 
     const inputProps = {
       sendMessage: (message) => {
-        this.props.socket.emit('client:message', {name: this.props.name, message})
-      }
+        this.emitEvent('client:message', {message})
+      },
+      emitEvent: this.emitEvent.bind(this)
     }
 
     const modalProps = {

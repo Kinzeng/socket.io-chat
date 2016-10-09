@@ -15,6 +15,8 @@ app.all('*', (req, res) => {
 const sockets = []
 const users = []
 io.on('connection', (socket) => {
+  console.log('connected')
+
   socket.on('client:login', (name) => {
     sockets.push(socket)
     users.push(name)
@@ -29,10 +31,14 @@ io.on('connection', (socket) => {
     socket.emit('server:update-users', users)
   })
 
-  socket.on('client:message', (message, ack) => {
-    console.log(`\tmessage received from ${message.name}: ${message.message}`)
-    io.emit('server:message', {...message, type: 'message'})
+  socket.on('client:message', (data) => {
+    console.log(`\tmessage received from ${data.name}: ${data.message}`)
+    io.emit('server:message', {...data, type: 'message'})
     // socket.emit('server:sender', 'You sent the message')
+  })
+
+  socket.on('client:typing', (data) => {
+    socket.broadcast.emit('server:typing', data.name)
   })
 
   socket.on('disconnect', () => {
@@ -44,8 +50,8 @@ io.on('connection', (socket) => {
 
       sockets.splice(i, 1)
       users.splice(i, 1)
+      console.log(`${user} has disconnected - ${sockets.length} users in chat`)
     }
-    console.log(`${user} has disconnected - ${sockets.length} users in chat`)
   })
 })
 

@@ -34,6 +34,10 @@ export default class ChatInput extends React.Component {
   }
 
   onChange (e) {
+    if (this.state.message.length < e.target.value.length) {
+      this.props.emitEvent('client:typing')
+    }
+
     this.setState({message: e.target.value})
   }
 
