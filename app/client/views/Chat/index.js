@@ -28,6 +28,15 @@ const mainProps = {
   }
 }
 
+const messageContainerProps = {
+  style: {
+    width: '80%',
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    justifyContent: 'space-between'
+  }
+}
+
 class Chat extends React.Component {
   constructor (props) {
     super(props)
@@ -124,7 +133,7 @@ class Chat extends React.Component {
         <ChatHeader {...headerProps} />
         <div {...mainProps}>
           <UserList {...usersProps} />
-          <div style={{width: '80%', display: 'flex', flexFlow: 'column nowrap', justifyContent: 'space-between'}}>
+          <div {...messageContainerProps}>
             <MessageList {...messagesProps} />
             <ChatInput {...inputProps} />
           </div>

@@ -3,7 +3,9 @@ import React from 'react'
 const containerProps = {
   style: {
     height: '40px',
-    width: '100%'
+    width: '100%',
+    display: 'flex',
+    flexFlow: 'row nowrap'
   }
 }
 
@@ -19,6 +21,7 @@ const inputStyle = {
 const buttonStyle = {
   height: '100%',
   width: '5%',
+  minWidth: '50px',
   backgroundColor: 'transparent',
   color: 'rgb(0, 132, 255)',
   fontWeight: 'bold',

@@ -32,30 +32,31 @@ export default class MessageList extends React.Component {
       return <Message {...messageProps} />
     })
 
-    let typing
-    switch (this.props.typing.length) {
-      case 0: break
+    if (this.props.typing.length > 0) {
+      let typing
+      switch (this.props.typing.length) {
+        case 1: {
+          typing = `${this.props.typing[0]} is typing...`
+          break
+        }
 
-      case 1: {
-        typing = `${this.props.typing[0]} is typing...`
-        break
-      }
+        case 2: {
+          typing = `${this.props.typing[0]} and ${this.props.typing[1]} are typing...`
+          break
+        }
 
-      case 2: {
-        typing = `${this.props.typing[0]} and ${this.props.typing[1]} are typing...`
-        break
+        default: {
+          typing = `${this.props.typing.join(', ')} are typing...`
+          break
+        }
       }
-
-      default: {
-        typing = `${this.props.typing.join(', ')} are typing...`
-        break
+      const typingProps = {
+        type: 'typing',
+        message: typing,
+        key: 'typing'
       }
+      messages.push(<Message {...typingProps} />)
     }
-    const typingProps = {
-      type: 'typing',
-      message: typing
-    }
-    messages.push(<Message {...typingProps} />)
 
     const container = {
       ...containerProps,
