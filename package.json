@@ -7,7 +7,6 @@
   "repository": "*",
   "main": "server/index.js",
   "scripts": {
-    "start": "sudo NODE_ENV=production IP_ADDR=$(ipconfig getifaddr en0) npm run build && node bin",
     "monitor": "nodemon --ignore app/public/ --ignore app/client/ bin",
     "dev": "webpack -d --watch --progress & npm run monitor",
     "build": "webpack -p"
